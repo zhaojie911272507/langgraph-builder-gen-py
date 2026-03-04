@@ -4,12 +4,12 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # 安装依赖
-COPY langgraphbuilder/package.json langgraphbuilder/yarn.lock* ./
-RUN yarn install --frozen-lockfile
+COPY langgraphbuilder/package.json langgraphbuilder/package-lock.json ./
+RUN npm ci
 
 # 复制源码并构建
 COPY langgraphbuilder/ .
-RUN yarn build
+RUN npm run build
 
 # 生产阶段
 FROM node:20-alpine AS runner
